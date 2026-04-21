@@ -11,6 +11,7 @@ import PageReplacementPage from "./pages/PageReplacementPage.tsx";
 import SemaphorePage from "./pages/SemaphorePage.tsx";
 import QuizPage from "./pages/QuizPage.tsx";
 import LearnPage from "./pages/LearnPage.tsx";
+import ChapterPage, { ChaptersIndexPage } from "./pages/ChapterPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,8 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/learn" element={<LearnPage />} />
+            <Route path="/chapters" element={<ChaptersIndexPage />} />
+            <Route path="/chapter/:id" element={<ChapterPage />} />
             <Route path="/sim/scheduling" element={<SchedulingPage />} />
             <Route path="/sim/page-replacement" element={<PageReplacementPage />} />
             <Route path="/sim/semaphore" element={<SemaphorePage />} />

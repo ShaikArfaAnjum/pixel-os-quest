@@ -5,7 +5,7 @@ import { AchievementGrid } from "@/components/dashboard/AchievementGrid";
 import { Leaderboard } from "@/components/dashboard/Leaderboard";
 import { PageHeader } from "@/components/PageHeader";
 import { Link } from "react-router-dom";
-import { Cpu, Database, Workflow, ArrowRight } from "lucide-react";
+import { Cpu, Database, Workflow, ArrowRight, Sparkles } from "lucide-react";
 
 const QUICK = [
   { to: "/sim/scheduling", title: "CPU Scheduling", desc: "FCFS · SJF · RR · Priority", icon: Cpu, color: "primary" },
@@ -21,6 +21,22 @@ const Index = () => {
         title="Master the Operating System."
         subtitle="An interactive, gamified path through OS fundamentals — from Linux & processes to virtual memory and disk scheduling."
       />
+
+      <Link to="/chapters" className="block mb-6 glass-card rounded-xl p-5 border-primary/40 hover:border-primary transition-all hover:-translate-y-0.5 group">
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-background animate-pulse-glow">
+              <Sparkles className="w-6 h-6" />
+            </div>
+            <div>
+              <div className="font-mono text-[10px] uppercase tracking-widest text-secondary">new · animated learning path</div>
+              <h2 className="font-display font-bold text-xl">Start the Story-Driven Journey</h2>
+              <p className="text-sm text-muted-foreground">14 chapters · animated scenes · real-world analogies · XP challenges.</p>
+            </div>
+          </div>
+          <ArrowRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform shrink-0" />
+        </div>
+      </Link>
 
       <div className="grid lg:grid-cols-3 gap-6 mb-10">
         <div className="lg:col-span-2 space-y-6">
