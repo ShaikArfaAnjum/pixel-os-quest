@@ -1,10 +1,11 @@
 import { ReactNode } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { LayoutDashboard, Cpu, Database, Workflow, Trophy, BookOpen, Terminal } from "lucide-react";
+import { LayoutDashboard, Cpu, Database, Workflow, Trophy, BookOpen, Terminal, Sparkles } from "lucide-react";
 import { useProgress } from "@/store/progress";
 
 const NAV = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/chapters", label: "Chapters", icon: Sparkles },
   { to: "/learn", label: "Learn", icon: BookOpen },
   { to: "/sim/scheduling", label: "Scheduling", icon: Cpu },
   { to: "/sim/page-replacement", label: "Paging", icon: Database },
