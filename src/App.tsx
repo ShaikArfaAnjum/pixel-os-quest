@@ -3,23 +3,35 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ProgressProvider } from "@/store/progress";
 import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import SchedulingPage from "./pages/SchedulingPage.tsx";
+import PageReplacementPage from "./pages/PageReplacementPage.tsx";
+import SemaphorePage from "./pages/SemaphorePage.tsx";
+import QuizPage from "./pages/QuizPage.tsx";
+import LearnPage from "./pages/LearnPage.tsx";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <ProgressProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/learn" element={<LearnPage />} />
+            <Route path="/sim/scheduling" element={<SchedulingPage />} />
+            <Route path="/sim/page-replacement" element={<PageReplacementPage />} />
+            <Route path="/sim/semaphore" element={<SemaphorePage />} />
+            <Route path="/quiz" element={<QuizPage />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </ProgressProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
