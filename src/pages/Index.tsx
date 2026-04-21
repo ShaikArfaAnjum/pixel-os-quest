@@ -1,16 +1,72 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { AppLayout } from "@/components/layout/AppLayout";
+import { ProfileCard } from "@/components/dashboard/ProfileCard";
+import { LevelGrid } from "@/components/dashboard/LevelGrid";
+import { AchievementGrid } from "@/components/dashboard/AchievementGrid";
+import { Leaderboard } from "@/components/dashboard/Leaderboard";
+import { PageHeader } from "@/components/PageHeader";
+import { Link } from "react-router-dom";
+import { Cpu, Database, Workflow, ArrowRight } from "lucide-react";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const QUICK = [
+  { to: "/sim/scheduling", title: "CPU Scheduling", desc: "FCFS · SJF · RR · Priority", icon: Cpu, color: "primary" },
+  { to: "/sim/page-replacement", title: "Page Replacement", desc: "FIFO · LRU · Optimal", icon: Database, color: "secondary" },
+  { to: "/sim/semaphore", title: "Producer-Consumer", desc: "Semaphores in action", icon: Workflow, color: "accent" },
+];
+
+const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
-    </div>
+    <AppLayout>
+      <PageHeader
+        kicker="welcome cadet"
+        title="Master the Operating System."
+        subtitle="An interactive, gamified path through OS fundamentals — from Linux & processes to virtual memory and disk scheduling."
+      />
+
+      <div className="grid lg:grid-cols-3 gap-6 mb-10">
+        <div className="lg:col-span-2 space-y-6">
+          <ProfileCard />
+
+          <div>
+            <h2 className="font-display font-bold uppercase tracking-wider text-lg mb-3 flex items-center gap-2">
+              <span className="w-1 h-5 bg-primary rounded-full" /> Quick Launch
+            </h2>
+            <div className="grid sm:grid-cols-3 gap-3">
+              {QUICK.map((q) => {
+                const Icon = q.icon;
+                const c = q.color === "primary" ? "from-primary/20 border-primary/40 text-primary" : q.color === "secondary" ? "from-secondary/20 border-secondary/40 text-secondary" : "from-accent/20 border-accent/40 text-accent";
+                return (
+                  <Link key={q.to} to={q.to} className={`group rounded-xl border bg-gradient-to-br ${c} to-transparent p-4 hover:-translate-y-1 transition-all`}>
+                    <Icon className="w-6 h-6 mb-2" />
+                    <div className="font-display font-bold">{q.title}</div>
+                    <div className="text-xs text-muted-foreground font-mono mt-0.5">{q.desc}</div>
+                    <div className="flex items-center gap-1 text-xs font-mono mt-3 opacity-70 group-hover:opacity-100">
+                      Launch <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        <Leaderboard />
+      </div>
+
+      <div className="mb-10">
+        <h2 className="font-display font-bold uppercase tracking-wider text-lg mb-3 flex items-center gap-2">
+          <span className="w-1 h-5 bg-secondary rounded-full" /> Skill Tree · 10 Levels
+        </h2>
+        <LevelGrid />
+      </div>
+
+      <div>
+        <h2 className="font-display font-bold uppercase tracking-wider text-lg mb-3 flex items-center gap-2">
+          <span className="w-1 h-5 bg-accent rounded-full" /> Achievements
+        </h2>
+        <AchievementGrid />
+      </div>
+    </AppLayout>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
