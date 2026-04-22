@@ -80,24 +80,29 @@ Chapter 1: Foundation (Levels 1-3)
 What is OS and why it exists
 Computer hardware basics
 OS features and responsibilities
+
 Chapter 2: Execution (Levels 4-6)
 Processes and Process Control Block
 CPU Scheduling (FCFS, SJF, Round Robin)
 Context Switching
+
 Chapter 3: Memory (Levels 7-10)
 Memory basics and addressing
 Contiguous allocation (MFT, MVT)
 Paging and virtual memory
 Page replacement algorithms (5 types)
+
 Chapter 4: Synchronization (Levels 11-13)
 Race conditions and critical sections
 Peterson's algorithm
 Semaphores
 Producer-consumer problem
+
 Chapter 5: Deadlocks (Levels 14-15)
 Deadlock conditions and circular wait
 Prevention, avoidance, detection
 Banker's algorithm
+
 Chapter 6: Disk & Files (Levels 16-18)
 Disk scheduling algorithms
 File systems and permissions
@@ -232,6 +237,8 @@ After completing this platform, you will:
 "Perfectionist" - Perfect scores
 🎬 PLATFORM FLOW
 Code
+
+
 💻 GETTING STARTED
 Step 1: Open in modern web browser
 Step 2: Click "Start Learning"
@@ -250,20 +257,26 @@ Course: CSE-11 Operating Systems
 Level: Year 2, Semester 2
 Syllabus: Complete OS fundamentals
 Created by: Arfa (Student Project)
+
+
 ✨ WHY CHOOSE THIS PLATFORM?
 Most OS courses are:
 ❌ Boring textbook readings
 ❌ Confusing without visuals
 ❌ Hard to understand algorithms
 ❌ No motivation to keep learning
+
+
 This platform is:
 ✅ Engaging with animations & games
 ✅ Crystal clear with visual simulators
 ✅ Makes algorithms understandable
 ✅ Rewards progress with XP & badges
+
 🚀 READY TO LEARN?
 Start with Level 1: "What is an Operating System?"
 Watch the animated video explaining OS like never before, and begin your journey to becoming an OS Master! 🎓
+
 📞 NEED HELP?
 Read explanations in each level
 Rewatch animated videos
