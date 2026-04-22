@@ -173,7 +173,15 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  const setUsername = useCallback((n: string) => setState((s) => ({ ...s, username: n })), []);
+  const setUsername = useCallback(
+    (n: string) => {
+      setState((s) => ({ ...s, username: n }));
+      if (user) {
+        supabase.from("profiles").update({ username: n }).eq("id", user.id).then(() => {});
+      }
+    },
+    [user]
+  );
   const reset = useCallback(() => {
     localStorage.removeItem(STORAGE_KEY);
     setState({ xp: 0, level: 1, unlocked: new Set(), completedLessons: new Set(), username: "Cadet" });
