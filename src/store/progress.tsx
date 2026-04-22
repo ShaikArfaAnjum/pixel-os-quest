@@ -1,4 +1,6 @@
-import { createContext, useContext, useEffect, useState, ReactNode, useCallback } from "react";
+import { createContext, useContext, useEffect, useState, ReactNode, useCallback, useRef } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/store/auth";
 
 export type Achievement = {
   id: string;
@@ -61,8 +63,47 @@ const load = (): ProgressState => {
 };
 
 export function ProgressProvider({ children }: { children: ReactNode }) {
+  const { user } = useAuth();
   const [state, setState] = useState<ProgressState>(() => load());
+  const hydratedForUser = useRef<string | null>(null);
+  const skipNextSync = useRef(false);
 
+  // Hydrate from Supabase when a user logs in
+  useEffect(() => {
+    if (!user) {
+      hydratedForUser.current = null;
+      return;
+    }
+    if (hydratedForUser.current === user.id) return;
+
+    let cancelled = false;
+    (async () => {
+      const [{ data: profile }, { data: prog }] = await Promise.all([
+        supabase.from("profiles").select("username").eq("id", user.id).maybeSingle(),
+        supabase
+          .from("user_progress")
+          .select("xp, level, unlocked_achievements, completed_lessons")
+          .eq("user_id", user.id)
+          .maybeSingle(),
+      ]);
+      if (cancelled) return;
+
+      skipNextSync.current = true;
+      hydratedForUser.current = user.id;
+      setState({
+        xp: prog?.xp ?? 0,
+        level: prog?.level ?? 1,
+        unlocked: new Set(prog?.unlocked_achievements ?? []),
+        completedLessons: new Set(prog?.completed_lessons ?? []),
+        username: profile?.username ?? user.email?.split("@")[0] ?? "Cadet",
+      });
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [user]);
+
+  // Persist to localStorage always
   useEffect(() => {
     localStorage.setItem(
       STORAGE_KEY,
@@ -75,6 +116,31 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
       })
     );
   }, [state]);
+
+  // Sync to Supabase when authed
+  useEffect(() => {
+    if (!user || hydratedForUser.current !== user.id) return;
+    if (skipNextSync.current) {
+      skipNextSync.current = false;
+      return;
+    }
+    const t = setTimeout(() => {
+      supabase
+        .from("user_progress")
+        .upsert(
+          {
+            user_id: user.id,
+            xp: state.xp,
+            level: state.level,
+            unlocked_achievements: [...state.unlocked],
+            completed_lessons: [...state.completedLessons],
+          },
+          { onConflict: "user_id" }
+        )
+        .then(() => {});
+    }, 400);
+    return () => clearTimeout(t);
+  }, [state, user]);
 
   const addXP = useCallback((amount: number) => {
     setState((s) => {
