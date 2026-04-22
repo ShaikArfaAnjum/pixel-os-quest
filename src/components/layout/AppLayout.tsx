@@ -1,10 +1,14 @@
 import { ReactNode } from "react";
-import { NavLink, useLocation } from "react-router-dom";
-import { LayoutDashboard, Cpu, Database, Workflow, Trophy, BookOpen, Terminal, Sparkles } from "lucide-react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { LayoutDashboard, Cpu, Database, Workflow, Trophy, BookOpen, Terminal, Sparkles, User as UserIcon, LogOut } from "lucide-react";
 import { useProgress } from "@/store/progress";
+import { useAuth } from "@/store/auth";
+import {
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const NAV = [
-  { to: "/", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/chapters", label: "Chapters", icon: Sparkles },
   { to: "/learn", label: "Learn", icon: BookOpen },
   { to: "/sim/scheduling", label: "Scheduling", icon: Cpu },
@@ -14,15 +18,22 @@ const NAV = [
 ];
 
 export function AppLayout({ children }: { children: ReactNode }) {
-  const { level, xp, progressInLevel } = useProgress();
+  const { level, xp, progressInLevel, username } = useProgress();
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
   const pct = (progressInLevel / 250) * 100;
   const location = useLocation();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
+  };
 
   return (
     <div className="min-h-screen flex flex-col grid-bg">
       <header className="sticky top-0 z-50 backdrop-blur-xl bg-background/70 border-b border-border">
         <div className="container flex items-center justify-between h-16 gap-6">
-          <NavLink to="/" className="flex items-center gap-2 group">
+          <NavLink to="/dashboard" className="flex items-center gap-2 group">
             <div className="w-9 h-9 rounded-md bg-gradient-to-br from-primary to-secondary flex items-center justify-center font-mono font-bold text-background animate-pulse-glow">
               <Terminal className="w-5 h-5" />
             </div>
