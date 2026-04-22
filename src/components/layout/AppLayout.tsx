@@ -1,10 +1,14 @@
 import { ReactNode } from "react";
-import { NavLink, useLocation } from "react-router-dom";
-import { LayoutDashboard, Cpu, Database, Workflow, Trophy, BookOpen, Terminal, Sparkles } from "lucide-react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { LayoutDashboard, Cpu, Database, Workflow, Trophy, BookOpen, Terminal, Sparkles, User as UserIcon, LogOut } from "lucide-react";
 import { useProgress } from "@/store/progress";
+import { useAuth } from "@/store/auth";
+import {
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const NAV = [
-  { to: "/", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/chapters", label: "Chapters", icon: Sparkles },
   { to: "/learn", label: "Learn", icon: BookOpen },
   { to: "/sim/scheduling", label: "Scheduling", icon: Cpu },
@@ -14,15 +18,22 @@ const NAV = [
 ];
 
 export function AppLayout({ children }: { children: ReactNode }) {
-  const { level, xp, progressInLevel } = useProgress();
+  const { level, xp, progressInLevel, username } = useProgress();
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
   const pct = (progressInLevel / 250) * 100;
   const location = useLocation();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
+  };
 
   return (
     <div className="min-h-screen flex flex-col grid-bg">
       <header className="sticky top-0 z-50 backdrop-blur-xl bg-background/70 border-b border-border">
         <div className="container flex items-center justify-between h-16 gap-6">
-          <NavLink to="/" className="flex items-center gap-2 group">
+          <NavLink to="/dashboard" className="flex items-center gap-2 group">
             <div className="w-9 h-9 rounded-md bg-gradient-to-br from-primary to-secondary flex items-center justify-center font-mono font-bold text-background animate-pulse-glow">
               <Terminal className="w-5 h-5" />
             </div>
@@ -58,22 +69,49 @@ export function AppLayout({ children }: { children: ReactNode }) {
             })}
           </nav>
 
-          <div className="hidden sm:flex items-center gap-3 px-3 py-1.5 rounded-full glass-card">
-            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-accent to-secondary flex items-center justify-center text-[11px] font-bold font-mono">
-              {level}
-            </div>
-            <div className="flex flex-col gap-1 min-w-[100px]">
-              <div className="flex items-center justify-between text-[10px] font-mono text-muted-foreground">
-                <span>LVL {level}</span>
-                <span className="text-primary">{xp} XP</span>
+          <div className="flex items-center gap-3">
+            <div className="hidden sm:flex items-center gap-3 px-3 py-1.5 rounded-full glass-card">
+              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-accent to-secondary flex items-center justify-center text-[11px] font-bold font-mono">
+                {level}
               </div>
-              <div className="h-1.5 rounded-full bg-muted overflow-hidden">
-                <div
-                  className="h-full bg-gradient-to-r from-primary to-secondary transition-all duration-500"
-                  style={{ width: `${pct}%` }}
-                />
+              <div className="flex flex-col gap-1 min-w-[100px]">
+                <div className="flex items-center justify-between text-[10px] font-mono text-muted-foreground">
+                  <span>LVL {level}</span>
+                  <span className="text-primary">{xp} XP</span>
+                </div>
+                <div className="h-1.5 rounded-full bg-muted overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-primary to-secondary transition-all duration-500"
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
               </div>
             </div>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger className="w-9 h-9 rounded-full bg-gradient-to-br from-primary via-secondary to-accent p-0.5 outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                <div className="w-full h-full rounded-full bg-card flex items-center justify-center font-display font-bold text-sm text-gradient-cyber">
+                  {(username || user?.email || "U").slice(0, 1).toUpperCase()}
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel className="font-mono text-xs">
+                  <div className="font-bold">{username}</div>
+                  {user?.email && <div className="text-muted-foreground truncate">{user.email}</div>}
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => navigate("/profile")}>
+                  <UserIcon className="w-4 h-4 mr-2" /> Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/dashboard")}>
+                  <LayoutDashboard className="w-4 h-4 mr-2" /> Dashboard
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleSignOut} className="text-destructive">
+                  <LogOut className="w-4 h-4 mr-2" /> Sign out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
 
