@@ -69,22 +69,49 @@ export function AppLayout({ children }: { children: ReactNode }) {
             })}
           </nav>
 
-          <div className="hidden sm:flex items-center gap-3 px-3 py-1.5 rounded-full glass-card">
-            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-accent to-secondary flex items-center justify-center text-[11px] font-bold font-mono">
-              {level}
-            </div>
-            <div className="flex flex-col gap-1 min-w-[100px]">
-              <div className="flex items-center justify-between text-[10px] font-mono text-muted-foreground">
-                <span>LVL {level}</span>
-                <span className="text-primary">{xp} XP</span>
+          <div className="flex items-center gap-3">
+            <div className="hidden sm:flex items-center gap-3 px-3 py-1.5 rounded-full glass-card">
+              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-accent to-secondary flex items-center justify-center text-[11px] font-bold font-mono">
+                {level}
               </div>
-              <div className="h-1.5 rounded-full bg-muted overflow-hidden">
-                <div
-                  className="h-full bg-gradient-to-r from-primary to-secondary transition-all duration-500"
-                  style={{ width: `${pct}%` }}
-                />
+              <div className="flex flex-col gap-1 min-w-[100px]">
+                <div className="flex items-center justify-between text-[10px] font-mono text-muted-foreground">
+                  <span>LVL {level}</span>
+                  <span className="text-primary">{xp} XP</span>
+                </div>
+                <div className="h-1.5 rounded-full bg-muted overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-primary to-secondary transition-all duration-500"
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
               </div>
             </div>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger className="w-9 h-9 rounded-full bg-gradient-to-br from-primary via-secondary to-accent p-0.5 outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                <div className="w-full h-full rounded-full bg-card flex items-center justify-center font-display font-bold text-sm text-gradient-cyber">
+                  {(username || user?.email || "U").slice(0, 1).toUpperCase()}
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel className="font-mono text-xs">
+                  <div className="font-bold">{username}</div>
+                  {user?.email && <div className="text-muted-foreground truncate">{user.email}</div>}
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => navigate("/profile")}>
+                  <UserIcon className="w-4 h-4 mr-2" /> Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/dashboard")}>
+                  <LayoutDashboard className="w-4 h-4 mr-2" /> Dashboard
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleSignOut} className="text-destructive">
+                  <LogOut className="w-4 h-4 mr-2" /> Sign out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
 
