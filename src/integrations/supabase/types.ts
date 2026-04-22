@@ -14,7 +14,105 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      activity_log: {
+        Row: {
+          created_at: string
+          detail: string | null
+          id: string
+          kind: string
+          title: string
+          user_id: string
+          xp_delta: number | null
+        }
+        Insert: {
+          created_at?: string
+          detail?: string | null
+          id?: string
+          kind: string
+          title: string
+          user_id: string
+          xp_delta?: number | null
+        }
+        Update: {
+          created_at?: string
+          detail?: string | null
+          id?: string
+          kind?: string
+          title?: string
+          user_id?: string
+          xp_delta?: number | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          updated_at: string
+          username: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+          updated_at?: string
+          username: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+          username?: string
+        }
+        Relationships: []
+      }
+      user_progress: {
+        Row: {
+          completed_lessons: string[]
+          created_at: string
+          daily_challenge_completed: boolean
+          daily_challenge_date: string | null
+          last_active_chapter: number | null
+          level: number
+          unlocked_achievements: string[]
+          updated_at: string
+          user_id: string
+          xp: number
+        }
+        Insert: {
+          completed_lessons?: string[]
+          created_at?: string
+          daily_challenge_completed?: boolean
+          daily_challenge_date?: string | null
+          last_active_chapter?: number | null
+          level?: number
+          unlocked_achievements?: string[]
+          updated_at?: string
+          user_id: string
+          xp?: number
+        }
+        Update: {
+          completed_lessons?: string[]
+          created_at?: string
+          daily_challenge_completed?: boolean
+          daily_challenge_date?: string | null
+          last_active_chapter?: number | null
+          level?: number
+          unlocked_achievements?: string[]
+          updated_at?: string
+          user_id?: string
+          xp?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
