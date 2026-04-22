@@ -1,11 +1,7 @@
 import { ReactNode } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { LayoutDashboard, Cpu, Database, Workflow, Trophy, BookOpen, Terminal, Sparkles, User as UserIcon, LogOut } from "lucide-react";
+import { NavLink, useLocation } from "react-router-dom";
+import { LayoutDashboard, Cpu, Database, Workflow, Trophy, BookOpen, Terminal, Sparkles } from "lucide-react";
 import { useProgress } from "@/store/progress";
-import { useAuth } from "@/store/auth";
-import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 const NAV = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -19,15 +15,8 @@ const NAV = [
 
 export function AppLayout({ children }: { children: ReactNode }) {
   const { level, xp, progressInLevel, username } = useProgress();
-  const { user, signOut } = useAuth();
-  const navigate = useNavigate();
   const pct = (progressInLevel / 250) * 100;
   const location = useLocation();
-
-  const handleSignOut = async () => {
-    await signOut();
-    navigate("/");
-  };
 
   return (
     <div className="min-h-screen flex flex-col grid-bg">
@@ -88,30 +77,11 @@ export function AppLayout({ children }: { children: ReactNode }) {
               </div>
             </div>
 
-            <DropdownMenu>
-              <DropdownMenuTrigger className="w-9 h-9 rounded-full bg-gradient-to-br from-primary via-secondary to-accent p-0.5 outline-none focus-visible:ring-2 focus-visible:ring-ring">
-                <div className="w-full h-full rounded-full bg-card flex items-center justify-center font-display font-bold text-sm text-gradient-cyber">
-                  {(username || user?.email || "U").slice(0, 1).toUpperCase()}
-                </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuLabel className="font-mono text-xs">
-                  <div className="font-bold">{username}</div>
-                  {user?.email && <div className="text-muted-foreground truncate">{user.email}</div>}
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => navigate("/profile")}>
-                  <UserIcon className="w-4 h-4 mr-2" /> Profile
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate("/dashboard")}>
-                  <LayoutDashboard className="w-4 h-4 mr-2" /> Dashboard
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleSignOut} className="text-destructive">
-                  <LogOut className="w-4 h-4 mr-2" /> Sign out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary via-secondary to-accent p-0.5">
+              <div className="w-full h-full rounded-full bg-card flex items-center justify-center font-display font-bold text-sm text-gradient-cyber">
+                {(username || "U").slice(0, 1).toUpperCase()}
+              </div>
+            </div>
           </div>
         </div>
 

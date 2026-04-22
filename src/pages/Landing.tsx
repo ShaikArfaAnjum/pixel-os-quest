@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Cpu, Gamepad2, PlayCircle, Sparkles, Star, Trophy, Users, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/store/auth";
 
 const FEATURES = [
   { icon: PlayCircle, title: "Animated Lessons", desc: "Visual storytelling for every concept", color: "primary" },
@@ -17,8 +16,6 @@ const STATS = [
 ];
 
 export default function Landing() {
-  const { user } = useAuth();
-
   return (
     <div className="min-h-screen flex flex-col grid-bg">
       {/* Top nav */}
@@ -34,20 +31,9 @@ export default function Landing() {
             </div>
           </Link>
           <div className="flex items-center gap-2">
-            {user ? (
-              <Button asChild size="sm">
-                <Link to="/dashboard">Open dashboard <ArrowRight className="w-4 h-4" /></Link>
-              </Button>
-            ) : (
-              <>
-                <Button asChild variant="ghost" size="sm" className="font-mono uppercase tracking-wider">
-                  <Link to="/sign-in">Sign in</Link>
-                </Button>
-                <Button asChild size="sm" className="font-mono uppercase tracking-wider">
-                  <Link to="/sign-up">Sign up free</Link>
-                </Button>
-              </>
-            )}
+            <Button asChild size="sm" className="font-mono uppercase tracking-wider">
+              <Link to="/dashboard">Enter <ArrowRight className="w-4 h-4" /></Link>
+            </Button>
           </div>
         </div>
       </header>
@@ -75,12 +61,9 @@ export default function Landing() {
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
             <Button asChild size="lg" className="h-14 px-8 text-base font-mono uppercase tracking-wider animate-pulse-glow">
-              <Link to={user ? "/dashboard" : "/sign-up"}>
+              <Link to="/dashboard">
                 <Zap className="w-5 h-5" /> Get Started
               </Link>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="h-14 px-8 text-base font-mono uppercase tracking-wider">
-              <Link to="/sign-in">I already have an account</Link>
             </Button>
           </div>
 
@@ -135,7 +118,7 @@ export default function Landing() {
               Join hundreds of students who turned a dry syllabus into the best game on their phone.
             </p>
             <Button asChild size="lg" className="mt-8 h-14 px-10 font-mono uppercase tracking-wider relative">
-              <Link to={user ? "/dashboard" : "/sign-up"}>
+              <Link to="/dashboard">
                 Start your quest <ArrowRight className="w-5 h-5" />
               </Link>
             </Button>
