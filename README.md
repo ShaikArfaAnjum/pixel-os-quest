@@ -199,22 +199,26 @@ Unit 1: Linux & Process Scheduling
 ✅ Process concept & operations
 ✅ CPU scheduling (FCFS, SJF, RR)
 ✅ Context switching
+
 Unit 2: Synchronization & Deadlocks
 ✅ Critical sections
 ✅ Peterson's solution
 ✅ Semaphores
 ✅ Producer-consumer
 ✅ Deadlock handling
+
 Unit 3: Memory Management
 ✅ Memory basics
 ✅ Contiguous allocation
 ✅ Paging
 ✅ Virtual memory
 ✅ Page replacement
+
 Unit 4: Storage & Files
 ✅ Disk scheduling
 ✅ File systems
 ✅ File permissions
+
 🎯 LEARNING OUTCOMES
 After completing this platform, you will:
 ✅ Understand what OS is and why it exists
